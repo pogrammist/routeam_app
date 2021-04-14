@@ -14,7 +14,15 @@ class RouteamService {
     @required String code,
   }) async {
     final response = await _dio.get('/api/$code');
-    return ApiMedia.fromApi(response.data);
+    switch (response.statusCode) {
+      case 200:
+        print(response.data);
+        return ApiMedia.fromApi(response.data);
+        break;
+      default:
+        throw response.data;
+        break;
+    }
   }
 
   Future<ApiMedia> postMedia({@required PostMediaBody body}) async {

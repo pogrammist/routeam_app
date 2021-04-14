@@ -6,7 +6,7 @@ import 'api_module.dart';
 class RepositoryModule {
   static MediaRepository _mediaRepository;
 
-  static MediaRepository dayRepository() {
+  static MediaRepository mediaRepository() {
     if (_mediaRepository == null) {
       _mediaRepository = MediaDataRepository(
         ApiModule.apiUtil(),
