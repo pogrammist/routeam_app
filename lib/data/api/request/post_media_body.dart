@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:path/path.dart';
 
+import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
 class PostMediaBody {
@@ -13,11 +15,16 @@ class PostMediaBody {
     this.template = 1,
   });
 
-  Map<String, dynamic> toApi() {
-    return {
-      'file': file,
+  Future<FormData> toApi() async {
+    final FormData formData = FormData.fromMap({
+      'file': await MultipartFile.fromFile(
+        file.path,
+        filename: "$code${extension(file.path)}",
+      ),
       'code': code,
       'template': template,
-    };
+    });
+    print(formData.fields);
+    return formData;
   }
 }

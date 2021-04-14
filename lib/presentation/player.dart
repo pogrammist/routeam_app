@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class Player extends StatefulWidget {
+  final String video;
+
+  Player({Key key, @required this.video}) : super(key: key);
+
   @override
   _PlayerState createState() => _PlayerState();
 }
@@ -12,11 +16,12 @@ class _PlayerState extends State<Player> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(
-        'https://dev.gift.routeam.ru/video/079b88ba-8ef3-4c64-a08c-4cbbd934aad0_25_01_2021.mp4')
+    _controller = VideoPlayerController.network(widget.video)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
+        setState(() {
+          if (_controller.value.initialized) _controller.play();
+        });
       });
   }
 
@@ -32,12 +37,14 @@ class _PlayerState extends State<Player> {
       appBar: AppBar(
         title: Text('Player'),
       ),
-      body: _controller.value.initialized
-          ? AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
-            )
-          : Container(),
+      body: Center(
+        child: _controller.value.initialized
+            ? AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              )
+            : CircularProgressIndicator(),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() => _controller.value.isPlaying

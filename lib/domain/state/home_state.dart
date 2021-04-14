@@ -25,7 +25,7 @@ abstract class HomeStateBase with Store {
   Future<void> getMedia({
     @required void Function({bool videoIsNull}) callback,
   }) async {
-    if (codeController.text.trim().isNotEmpty) {
+    if (codeController.text.trim().isNotEmpty && !isLoading) {
       isLoading = true;
       try {
         final code = codeController.text;

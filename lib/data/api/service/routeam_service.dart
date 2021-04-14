@@ -25,12 +25,20 @@ class RouteamService {
     }
   }
 
-  Future<ApiMedia> postMedia({@required PostMediaBody body}) async {
-    final formData = body.toApi();
+  Future<int> postMedia({@required PostMediaBody body}) async {
+    final formData = await body.toApi();
     final response = await _dio.post(
       '/api',
       data: formData,
     );
-    return ApiMedia.fromApi(response.data);
+    print("statusCode -- ${response.statusCode}");
+    switch (response.statusCode) {
+      case 200:
+        return response.statusCode;
+        break;
+      default:
+        throw response.data;
+        break;
+    }
   }
 }

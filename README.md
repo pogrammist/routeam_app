@@ -1,8 +1,8 @@
 # routeam_app
 
-A new Flutter project.
+A simple test task of routeam.ru
 
-## Getting Started
+## Details
 
 This project is a starting point for a Flutter application.
 

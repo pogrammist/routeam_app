@@ -18,6 +18,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _homeState = HomeModule.homeState();
+    // _homeState.codeController.text = "ff209e60-e8a3-4bb6-a0bb-a883adc37bbf";
   }
 
   @override
@@ -27,10 +28,13 @@ class _HomeState extends State<Home> {
   }
 
   void _moveTo({@required bool videoIsNull}) {
+    final String code = _homeState.media.code;
+    final String video = _homeState.media.video;
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => videoIsNull ? Loader() : Player(),
+        builder: (context) =>
+            videoIsNull ? Loader(code: code) : Player(video: video),
       ),
     );
   }
